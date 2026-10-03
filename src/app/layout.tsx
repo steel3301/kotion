@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import ConvexClientProvider from "@/components/providers/convex-client-provider";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "sonner";
+import { ModelProvider } from "@/components/providers/modal-provider";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -53,6 +55,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               disableTransitionOnChange
               storageKey="kotion-theme-2"
             >
+              <Toaster position="bottom-center"/>
+              <ModelProvider/>
               {children}
             </ThemeProvider>
           </ConvexClientProvider>
