@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { Cover } from "@/components/cover";
 import { Toolbar } from "@/components/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 import { api } from "convex/_generated/api";
 import { Id } from "convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
@@ -56,10 +57,14 @@ const DocumentIdPage = ({
 
     return (
         <div className="pb-40">
-           <Cover url={document.coverImage} />
+             <div className="fixed right-4 top-4 z-[100000]">
+                 <ModeToggle />
+             </div>
+           <Cover preview url={document.coverImage} />
             <div className="md:max-w-3xl lg:mx-w-4xl mx-auto">
-                <Toolbar initialData={document}/>
+                <Toolbar preview initialData={document}/>
                 <Editor
+                    editable={false}
                     onChange={saveContent}
                     initialContent={document.content}
                 />

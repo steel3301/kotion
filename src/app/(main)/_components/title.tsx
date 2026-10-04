@@ -19,12 +19,14 @@ export const Title = ({
 } : TitleProps) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
+    const hasSubmittedRef = useRef(false);
     const update = useMutation(api.documents.update);
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(initialData.title || "Untitled");
 
     const enableInput = () => {
         setTitle(initialData.title);
+        hasSubmittedRef.current = false;
         setIsEditing(true);
         setTimeout(() => {
             inputRef.current?.focus();
@@ -32,7 +34,18 @@ export const Title = ({
         }, 0);
     }
 
-    const disableInput = () => {
+    const saveTitle = () => {
+        if (hasSubmittedRef.current) return;
+        hasSubmittedRef.current = true;
+
+        const nextTitle = title.trim() || "Untitled";
+        setTitle(nextTitle);
+        if (nextTitle !== initialData.title) {
+            void update({
+                id: initialData._id,
+                title: nextTitle
+            });
+        }
         setIsEditing(false);
     };
 
@@ -41,10 +54,6 @@ export const Title = ({
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         setTitle(event.target.value);
-        update({
-            id: initialData._id,
-            title: event.target.value ||"Untitled"
-        });
     };
 
 
@@ -52,7 +61,8 @@ export const Title = ({
         event: React.KeyboardEvent<HTMLInputElement>
     ) => {
         if (event.key === "Enter") {
-            disableInput();
+            event.preventDefault();
+            saveTitle();
         }
     };
 
@@ -62,18 +72,18 @@ export const Title = ({
             {isEditing ? (
                 <Input
                     ref={inputRef}
-                    onClick={enableInput}
                     onChange={onChange}
-                    onBlur={disableInput}
+                    onBlur={saveTitle}
                     value={title}
-                    className="h-7 px-2 focus-visible:ring-transparent"
+                    onKeyDown={onKeyDown}
+                    className="h-7 px-2 text-[17px] md:text-[17px] focus-visible:ring-transparent"
                 />
             ): (
                 <Button
                 onClick={enableInput}
                 variant="ghost"
                 size="sm"
-                className="font-normal h-auto p1"
+                className="font-normal h-auto p-1 text-[17px]"
                 >
                     <span className="truncate">
                     {initialData?.title}

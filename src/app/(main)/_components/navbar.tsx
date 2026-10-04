@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import { Title } from "./title";
 import { Banner } from "./banner";
 import { Menu } from "./menu";
+import { Publish } from "./publish";
 
 interface NavbarProps{
     isCollapsed: boolean;
@@ -29,9 +30,11 @@ export const Navbar = ({
 
     if (document === undefined) {
         return (
-            <nav className="bg-background dark:bg[#1F1F1F] px-3 py-3 w-full flex items-center">
+            <nav className="bg-background dark:bg[#1F1F1F] px-3 py-3 w-full flex items-center justify-between">
                 <Title.Skeleton></Title.Skeleton>
-
+                <div className="flex items-center gap-x-2">
+                    <Menu.Skeleton></Menu.Skeleton>
+                </div>
             </nav>
         );
     }
@@ -53,10 +56,10 @@ export const Navbar = ({
 
                 <div className="flex min-w-0 flex-1 items-center justify-start">
                     <Title initialData={document}/>
-                    <div className="flex items-center gap-x-2">
-                        <Menu documentId={document._id} />
-
-                    </div>
+                </div>
+                <div className="ml-auto flex items-center gap-x-2">
+                    <Publish initialData={document}/>
+                    <Menu documentId={document._id} />
                 </div>
             </nav>
             {document.isArchived && (

@@ -1,10 +1,10 @@
 "use client"
 
-import { ChevronsLeft, MenuIcon, PlusCircle, Search, Settings, Trash } from "lucide-react";
+import { ChevronsLeft, MenuIcon, PlusCircle, Router, Search, Settings, Trash } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { cn } from "@/lib/utils";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { UserItem } from "./user-item";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "convex/_generated/api";
@@ -20,6 +20,7 @@ import { Navbar } from "./navbar";
 
 
 export const Navigation = () => {
+    const router = useRouter();
     const pathname = usePathname();
     const isMobile = useMediaQuery("(max-width: 768px)");
     const isResizingRef = useRef(false);
@@ -115,7 +116,7 @@ export const Navigation = () => {
     const handleCreate = () => {
         const promise = create({
             title: "Untitled"
-        });
+        }).then((documentId) => router.push(`/documents/${documentId}`))
         toast.promise(promise, {
             loading: "Creating a new note",
             success: "New note created!",

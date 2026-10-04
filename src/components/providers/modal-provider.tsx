@@ -3,6 +3,8 @@
 
 import { useEffect, useState } from "react";
 import { SettingsModel } from "../models/settings-model";
+import { CoverImageModel } from "@/components/models/cover-image-model";
+
 
 export const ModelProvider =() => {
 
@@ -20,6 +22,7 @@ export const ModelProvider =() => {
     return(
         <>
         <SettingsModel/>
+        <CoverImageModel/>
         </>
     );
 }

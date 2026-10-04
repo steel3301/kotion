@@ -9,6 +9,7 @@ import { api } from "convex/_generated/api";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Trash } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 
 
@@ -41,9 +42,9 @@ export const Menu = ({
 
     return(
         <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
                 <Button size="sm" variant="ghost">
-                    <MoreHorizontal className="h-4 w-4"></MoreHorizontal>
+                    <MoreHorizontal className="size-5"></MoreHorizontal>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -62,5 +63,12 @@ export const Menu = ({
                 </div>
             </DropdownMenuContent>
         </DropdownMenu>
+    );
+}
+
+
+Menu.Skeleton = function MenuSkeleton() {
+    return(
+        <Skeleton className="h-6 w-9 rounded-sm bg-muted-foreground/20"/>
     );
 }
